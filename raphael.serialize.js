@@ -6,7 +6,12 @@
  * (http://www.opensource.org/licenses/mit-license.php)
  *
  */
-
+(function() {
+var arrayEach = function(array, cb) {
+	for (var i = 0; i < array.length; i++) {
+		cb(i, array[i]);
+	}
+};
 Raphael.fn.serialize = {
   json: function() {
     var paper = this;
@@ -69,8 +74,8 @@ Raphael.fn.serialize = {
           case "path":
             var path = "";
 
-            $.each(node.attrs['path'], function(i, group) {
-              $.each(group,
+            arrayEach(node.attrs['path'], function(i, group) {
+              arrayEach(group,
                 function(index, value) {
                   if (index < 1) {
                       path += value;
@@ -111,7 +116,7 @@ Raphael.fn.serialize = {
     
     var paper = this;
     var set = paper.set();
-    $.each(json, function(index, node) {
+    arrayEach(json, function(index, node) {
       try {
         var el = paper[node.type]().attr(node);
         set.push(el);
@@ -120,4 +125,4 @@ Raphael.fn.serialize = {
     return set;
   }
 }
-
+})();
